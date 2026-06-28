@@ -15,6 +15,7 @@ A nerd font source for [blink.cmp](https://github.com/Saghen/blink.cmp).
 {
   "saghen/blink.cmp",
   dependencies = {
+      "saghen/blink.lib", -- Required only for blink.cmp v2 users
       "MahanRahmati/blink-nerdfont.nvim",
   },
   opts = {

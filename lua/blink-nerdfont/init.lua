@@ -1,4 +1,11 @@
-local async = require("blink.cmp.lib.async")
+--TODO: remove "blink.cmp.lib.async" module when blink.cmp v2 is stable.
+local task_ok, task = pcall(function()
+	return require("blink.cmp.lib.async").task
+end)
+
+if not task_ok then
+	task = require("blink.lib.task")
+end
 
 local nerdfont_items
 local config
@@ -36,7 +43,7 @@ end
 
 ---@param context blink.cmp.Context
 function M:get_completions(context, callback)
-	local task = async.task.empty():map(function()
+	local async_task = task.new(function()
 		local trigger = self:get_trigger_characters()
     local trigger_len = string.len(trigger[1])
 		local is_char_trigger = vim.list_contains(
@@ -51,7 +58,7 @@ function M:get_completions(context, callback)
 		})
 	end)
 	return function()
-		task:cancel()
+		async_task:cancel()
 	end
 end
 
